@@ -1,4 +1,4 @@
-import { defaultConfig } from './configs/database.config';
+import { defaultConfig } from './modules/database/database.config';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm/dist/interfaces/typeorm-options.interface';
 
 const ormConfig = (): TypeOrmModuleOptions => {

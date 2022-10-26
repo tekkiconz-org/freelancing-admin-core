@@ -1,10 +1,10 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { User } from '../users/entity/user.entity';
+import { User } from '../user/entity/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UsersService } from '../users/users.service';
+import { UsersService } from '../user/users.service';
 import * as bcrypt from 'bcrypt';
 import { Request } from 'express';
-import { UserRepository } from '../users/repository/user.repository';
+import { UserRepository } from '../user/repository/user.repository';
 
 @Injectable()
 export class AuthService {
