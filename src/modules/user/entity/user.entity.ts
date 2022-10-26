@@ -1,8 +1,7 @@
-import { BeforeInsert, Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { Expose } from 'class-transformer';
+import { BeforeInsert, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Exclude, Expose } from 'class-transformer';
 import * as bcrypt from 'bcrypt';
 import { jwtConstants } from '../../auth/constants';
-import { Role } from '../../roles/entity/role.entity';
 
 @Entity({
     name: 'users',
@@ -17,15 +16,16 @@ export class User {
 
     @Column()
     @Expose()
-    full_name: string;
+    phone: string;
 
     @Column()
     @Expose()
-    password: string;
+    username: string;
 
-    @OneToOne(() => Role)
-    @JoinColumn({ name: 'role_id' })
-    role: Role;
+    @Column()
+    @Expose()
+    @Exclude()
+    password: string;
 
     @Column()
     @Expose()
@@ -33,7 +33,23 @@ export class User {
 
     @Column()
     @Expose()
-    facebook_id: string;
+    country_code: string;
+
+    @Column()
+    @Expose()
+    verification_status: string;
+
+    @Column()
+    @Expose()
+    status: string;
+
+    @Column()
+    @Expose()
+    verification_object: string;
+
+    @Column()
+    @Expose()
+    stripe_account_id: string;
 
     @BeforeInsert()
     async actionBeforeInsert(): Promise<void> {

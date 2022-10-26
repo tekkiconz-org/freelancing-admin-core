@@ -1,5 +1,5 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm/dist/interfaces/typeorm-options.interface';
-import { User } from '../modules/users/entity/user.entity';
+import { User } from '../modules/user/entity/user.entity';
 import { ConfigSetting } from '../modules/configSetting/entity/configSetting.entity';
 import { Country } from '../modules/countries/entity/country.entity';
 import { Director } from '../modules/directors/entity/director.entity';
