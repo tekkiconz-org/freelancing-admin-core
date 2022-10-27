@@ -10,10 +10,6 @@ export class Category {
 
     @Column()
     @Expose()
-    parent_id: string;
-
-    @Column()
-    @Expose()
     title: string;
 
     @Column()

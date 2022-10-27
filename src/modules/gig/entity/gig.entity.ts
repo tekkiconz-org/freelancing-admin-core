@@ -1,8 +1,8 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { Expose, Type } from 'class-transformer';
+import { Expose } from 'class-transformer';
 import { User } from '../../user/entity/user.entity';
 import { Category } from '../../category/entity/category.entity';
-import { IsBoolean, IsNumber } from 'class-validator';
+import { IsNumber } from 'class-validator';
 
 @Entity({
     name: 'gig',
@@ -18,8 +18,6 @@ export class Gig {
 
     @Column()
     @Expose()
-    @IsBoolean()
-    @Type(() => Boolean)
     is_active: boolean;
 
     @Column()
