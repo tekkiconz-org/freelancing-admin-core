@@ -4,7 +4,7 @@ import { AuthService } from './auth.service';
 import { UsersService } from '../user/users.service';
 import { LoginUserDto } from './dto/loginUser.dto';
 import { Request } from 'express';
-import { LocalAuthGuard } from './guards/local-auth.guard';
+import { JWTAuthGuard } from './guards/jwt-auth.guard';
 
 @Controller('auth')
 @ApiTags('Auth')
@@ -15,7 +15,7 @@ export class AuthController {
     @ApiBody({
         type: LoginUserDto,
     })
-    @UseGuards(LocalAuthGuard)
+    @UseGuards(JWTAuthGuard)
     async login(@Req() req: Request): Promise<any> {
         return this.authService.login(req);
     }

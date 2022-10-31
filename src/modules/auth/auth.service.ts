@@ -4,18 +4,18 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { UsersService } from '../user/users.service';
 import * as bcrypt from 'bcrypt';
 import { Request } from 'express';
-import { UserRepository } from '../user/repository/user.repository';
+import { AdminRepository } from '../admin/repository/admin.repository';
 
 @Injectable()
 export class AuthService {
     constructor(
         private usersService: UsersService,
         @InjectRepository(User)
-        private usersRepository: UserRepository,
+        private adminRepository: AdminRepository,
     ) {}
 
     async validateUser(email: string, password: string): Promise<Partial<User>> {
-        const user = await this.usersRepository.findOneBy({ email: email });
+        const user = await this.adminRepository.findOneBy({ email: email });
         const comparePassword = await bcrypt.compare(password, user.password);
         if (!comparePassword) {
             throw new HttpException({ message: 'UnAuthorized' }, HttpStatus.FORBIDDEN);
@@ -28,15 +28,15 @@ export class AuthService {
 
     async login(req: Request): Promise<any> {
         // console.log(req.body);
-        const user = await this.usersRepository.findOneBy({ email: req.body.username });
-        if (!user) {
-            throw new HttpException({ message: 'test' }, HttpStatus.BAD_REQUEST);
+        const admin = await this.adminRepository.findOneBy({ email: req.body.username });
+        if (!admin) {
+            throw new HttpException({ message: 'Admin is not exist' }, HttpStatus.BAD_REQUEST);
         }
-        const comparePassword = await bcrypt.compare(req.body.password, user.password);
+        const comparePassword = await bcrypt.compare(req.body.password, admin.password);
         if (!comparePassword) {
-            throw new HttpException({ message: 'Sai mk' }, HttpStatus.FORBIDDEN);
+            throw new HttpException({ message: 'Wrong password' }, HttpStatus.FORBIDDEN);
         }
         // const payload = { email: user.email, sub: user.userId };
-        return user;
+        return admin;
     }
 }
