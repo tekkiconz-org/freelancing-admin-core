@@ -19,8 +19,6 @@ export class Admin {
     @Column()
     name: string;
 
-    @Column()
-    paymentKey: string;
     @BeforeInsert()
     async actionBeforeInsert(): Promise<void> {
         this.password = await bcrypt.hash(this.password, +process.env.SALT_ROUND);
