@@ -1,7 +1,8 @@
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { AdminModule } from './modules/admin/admin.module';
 import { AuthModule } from './modules/auth/auth.module';
-import { UsersModule } from './modules/user/users.module';
+import { CategoryModule } from './modules/category/category.module';
 import ormConfig from './ormconfig';
 
-const Modules = [AuthModule, UsersModule, TypeOrmModule.forRootAsync({ useFactory: ormConfig })];
+const Modules = [AuthModule, AdminModule, CategoryModule, TypeOrmModule.forRootAsync({ useFactory: ormConfig })];
 export default Modules;

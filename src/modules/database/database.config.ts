@@ -8,6 +8,7 @@ import { GigOrder } from '../gigOrder/entity/gigOrder.entity';
 import { GigPlan } from '../gigPlan/entity/gigPlan.entity';
 import { GigRating } from '../gigRating/entity/gigRating.entity';
 import { Transaction } from '../transaction/entity/transaction.entity';
+import { Admin } from '../admin/entity/admin.entity';
 
 export const defaultConfig: TypeOrmModuleOptions = {
     type: 'mysql',
@@ -17,7 +18,7 @@ export const defaultConfig: TypeOrmModuleOptions = {
     password: 'root',
     database: process.env.MYSQL_DATABASE,
     // autoLoadEntities: true,
-    entities: [User, Category, ExtraType, Gig, GigExtra, GigOrder, GigPlan, GigRating, Transaction],
+    entities: [User, Category, ExtraType, Gig, GigExtra, GigOrder, GigPlan, GigRating, Transaction, Admin],
     synchronize: true,
     logging: true,
     // dropSchema: false,

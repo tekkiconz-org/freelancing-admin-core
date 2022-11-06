@@ -2,7 +2,7 @@ import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 't
 import { Expose } from 'class-transformer';
 import { Category } from '../../category/entity/category.entity';
 
-export enum Type {
+export enum ExtraTypeEnum {
     LESS_TIME,
     OTHER,
 }
@@ -21,10 +21,10 @@ export class ExtraType {
 
     @Column({
         type: 'enum',
-        enum: Type,
+        enum: ExtraTypeEnum,
     })
     @Expose()
-    type: Type;
+    type: ExtraTypeEnum;
 
     @Column()
     @Expose()

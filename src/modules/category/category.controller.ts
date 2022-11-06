@@ -1,4 +1,4 @@
-import { Controller, Delete, Get, Param, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { CategoryService } from './category.service';
 import { CreateCategoryDto } from './dto/createCategory.dto';
@@ -14,14 +14,22 @@ export class CategoryController {
 
     @Post()
     @UseGuards(JWTAuthGuard)
-    async createCategory(createCategoryDto: CreateCategoryDto): Promise<Category> {
+    async createCategory(@Body() createCategoryDto: CreateCategoryDto): Promise<Category> {
         return await this.categoryService.createCategory(createCategoryDto);
     }
 
     @Get()
+    @UseGuards(JWTAuthGuard)
     async getAllCategory(): Promise<Category[]> {
         return await this.categoryService.getAllCategory();
     }
+
+    @Get(':id')
+    @UseGuards(JWTAuthGuard)
+    async getCategory(@Param('id') id: string): Promise<Category> {
+        return this.categoryService.getCategory(id);
+    }
+
     @Delete('/:id')
     @UseGuards(JWTAuthGuard)
     async deleteCategory(@Param() id: number): Promise<DeleteResult> {

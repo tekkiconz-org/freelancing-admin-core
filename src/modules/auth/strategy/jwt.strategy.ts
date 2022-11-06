@@ -18,7 +18,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
         });
     }
 
-    async validate(payload: any, done: VerifiedCallback) {
+    async validate(payload: any, done: VerifiedCallback): Promise<void> {
         const admin = await this.adminRepository.findOne({
             where: {
                 id: payload.id,
