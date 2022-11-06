@@ -51,7 +51,7 @@ export class AdminService {
         return await this.adminRepository.save(admin);
     }
 
-    async deleteAdmin(id: string): Promise<unknown> {
+    async deleteAdmin(id: string): Promise<void> {
         const numberId = parseInt(id);
         if (numberId === 1) {
             throw new HttpException({ message: `This user can't be deleted` }, HttpStatus.FORBIDDEN);
@@ -61,6 +61,5 @@ export class AdminService {
             throw new HttpException({ message: `This admin doesn't exist` }, HttpStatus.NOT_FOUND);
         }
         await this.adminRepository.remove([admin]);
-        return {};
     }
 }

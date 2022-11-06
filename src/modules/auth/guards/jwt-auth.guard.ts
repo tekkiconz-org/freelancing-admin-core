@@ -5,6 +5,12 @@ import { AuthGuard } from '@nestjs/passport';
 export class JWTAuthGuard extends AuthGuard('jwt') {
     logger = new Logger('authGuard');
 
+    // constructor() {
+    //     super({
+    //         usernameField: 'email',
+    //     });
+    // }
+
     canActivate(context: ExecutionContext): any {
         return super.canActivate(context);
     }

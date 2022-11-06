@@ -1,8 +1,7 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { CategoryRepository } from './repository/category.repository';
 import { CreateCategoryDto } from './dto/createCategory.dto';
 import { Category } from './entity/category.entity';
-import { DeleteResult } from 'typeorm';
 import { ExtraType, ExtraTypeEnum } from '../extraType/entity/extraType.entity';
 import { ExtraTypeRepository } from '../extraType/repository/extraType.repository';
 
@@ -13,7 +12,7 @@ export class CategoryService {
     async createCategory(createCategoryDto: CreateCategoryDto): Promise<Category> {
         const { title, options } = createCategoryDto;
         if (options.length < 4) {
-            throw new HttpException({ message: 'There should be more than 4 options' }, HttpStatus.BAD_REQUEST);
+            throw new BadRequestException({ message: 'There should be more than 4 options' });
         }
         const metadata = JSON.stringify(options);
 
@@ -39,16 +38,16 @@ export class CategoryService {
     async getCategory(id: string): Promise<Category> {
         const numberId = parseInt(id);
         if (!id) {
-            throw new HttpException({ message: 'Category not found' }, HttpStatus.NOT_FOUND);
+            throw new NotFoundException({ message: 'Category not found' });
         }
         const category = this.categoryRepository.findOneBy({ id: numberId });
         if (!category) {
-            throw new HttpException({ message: 'Category not found' }, HttpStatus.NOT_FOUND);
+            throw new NotFoundException({ message: 'Category not found' });
         }
         return category;
     }
 
-    async deleteCategory(id: number): Promise<DeleteResult> {
-        return await this.categoryRepository.delete({ id });
+    async deleteCategory(id: number): Promise<void> {
+        await this.categoryRepository.delete({ id });
     }
 }
