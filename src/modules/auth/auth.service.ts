@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { BadRequestException, ForbiddenException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
 import { Request } from 'express';
@@ -24,8 +24,11 @@ export class AuthService {
     async validateAdmin(email: string, password: string): Promise<Partial<Admin>> {
         const admin = await this.adminRepository.findOneBy({ email: email });
         const comparePassword = await bcrypt.compare(password, admin.password);
+        if (admin) {
+            throw new BadRequestException({ message: 'User is not exist' });
+        }
         if (!comparePassword) {
-            throw new HttpException({ message: 'UnAuthorized' }, HttpStatus.FORBIDDEN);
+            throw new ForbiddenException({ message: 'Admin is not exist' });
         }
         return {
             id: admin.id,
@@ -33,16 +36,8 @@ export class AuthService {
         };
     }
 
-    async login(req: Request): Promise<any> {
-        // console.log(req.body);
-        const admin = await this.adminRepository.findOneBy({ email: req.body.email });
-        if (!admin) {
-            throw new HttpException({ message: 'Admin is not exist' }, HttpStatus.BAD_REQUEST);
-        }
-        const comparePassword = await bcrypt.compare(req.body.password, admin.password);
-        if (!comparePassword) {
-            throw new HttpException({ message: 'Wrong password' }, HttpStatus.FORBIDDEN);
-        }
+    async login(req: Request): Promise<unknown> {
+        const admin: Partial<Admin> = req.user;
         const payload = { email: admin.email, sub: admin.id };
         return {
             accessToken: this.jwtService.sign(payload),
